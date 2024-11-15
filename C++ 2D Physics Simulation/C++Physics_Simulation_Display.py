@@ -1,8 +1,10 @@
 import tkinter as tk
-import random
 import time
+import sys
 
-zoom = 6
+maxRecursion = sys.getrecursionlimit()
+
+zoom = 16
 
 file = open("output.txt", "r")
 
@@ -19,30 +21,26 @@ partList = temp
 
 root = tk.Tk()
 
-
-
-canvas = tk.Canvas(root, width=1000, height=1000)
+canvas = tk.Canvas(root, width=512, height=512)
 canvas.pack()
 
-def update(i):
+def update(i, recursionDepth=0):
     
-    if(i >= len(partList[0])):
+    if(i >= len(partList[0]) or recursionDepth >= maxRecursion-6):
         return
     
     canvas.delete("all");
     
     for j in partList:
-        x = j[i][0] * zoom + 256
-        y = j[i][1] * zoom + 256
+        x = j[i][0] * zoom + canvas.winfo_reqwidth() / 2;
+        y = -j[i][1] * zoom + canvas.winfo_reqheight() / 2;
         size = j[0][0] * zoom
-        if(j[0][0] < 1):
-            canvas.create_oval(x-size,y-size,x+size,y+size,fill="black",outline="pink")
-        else:
-            canvas.create_oval(x-size,y-size,x+size,y+size,fill="red")
+        canvas.create_oval(x-size,y-size,x+size,y+size,fill="red",outline="black")
+    
     canvas.update_idletasks()
-    time.sleep(0.01)
-    update(i+1)
+    time.sleep(0.01)#set this to Particle::timeStep in particle.h
+    update(i+1, recursionDepth+1)
 
 update(1)
-
+update(1,maxRecursion-6)
 root.mainloop()
