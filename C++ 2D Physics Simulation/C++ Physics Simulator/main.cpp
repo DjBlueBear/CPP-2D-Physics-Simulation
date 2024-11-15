@@ -17,7 +17,6 @@ int main()
     }
     
     new Particle(-20,0,20,0,1,14,true);
-    new Line(-50,-10,50,-10,1,1);
     
     string outList[Particle::getParticleList().size()];
     
