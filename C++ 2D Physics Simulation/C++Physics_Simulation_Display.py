@@ -38,9 +38,10 @@ def update(i, recursionDepth=0):
         canvas.create_oval(x-size,y-size,x+size,y+size,fill="red",outline="black")
     
     canvas.update_idletasks()
-    time.sleep(0.01)#set this to Particle::timeStep in particle.h
+    time.sleep(0.02)#set this to Particle::timeStep in particle.h
     update(i+1, recursionDepth+1)
 
+root.wait_visibility(canvas)
 update(1)
 update(1,maxRecursion-6)
 root.mainloop()
